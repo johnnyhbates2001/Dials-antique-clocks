@@ -229,13 +229,13 @@ async function uploadFiles(fileList) {
   renderPhotos();
 }
 
-// Resize large phone photos in the browser before uploading (max 2000px, JPEG)
-async function shrinkImage(file, maxSize = 2000) {
+// Resize phone photos in the browser before uploading (max 1600px JPEG, keeps them under D1's 2 MB row limit)
+async function shrinkImage(file, maxSize = 1600) {
   if (!/^image\/(jpeg|png|webp)$/.test(file.type)) return file;
   try {
     const bitmap = await createImageBitmap(file);
     const scale = Math.min(1, maxSize / Math.max(bitmap.width, bitmap.height));
-    if (scale === 1 && file.size < 1.5 * 1024 * 1024) return file;
+    if (scale === 1 && file.size < 1024 * 1024) return file;
     const canvas = document.createElement('canvas');
     canvas.width = Math.round(bitmap.width * scale);
     canvas.height = Math.round(bitmap.height * scale);

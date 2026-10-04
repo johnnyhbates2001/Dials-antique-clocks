@@ -3,12 +3,12 @@
 // Static pages are served from /public by the assets binding.
 // This Worker handles:
 //   /api/*     – public clock listings + admin (login, add/edit/remove clocks, upload photos)
-//   /images/*  – photos uploaded through the admin, stored in R2
+//   /images/*  – photos uploaded through the admin, stored in the D1 "images" table
 
 const SESSION_COOKIE = 'dials_session';
 const SESSION_TTL_SECONDS = 60 * 60 * 12; // 12 hours
 const STATUSES = ['available', 'reserved', 'sold'];
-const MAX_IMAGE_BYTES = 10 * 1024 * 1024;
+const MAX_IMAGE_BYTES = 1_900_000; // D1 rows are limited to 2 MB
 const IMAGE_TYPES = { 'image/jpeg': 'jpg', 'image/png': 'png', 'image/webp': 'webp', 'image/gif': 'gif' };
 
 export default {
@@ -255,7 +255,7 @@ async function deleteClock(env, id) {
   return json({ ok: true });
 }
 
-// ---------------------------------------------------------------- images (R2)
+// ---------------------------------------------------------------- images (D1)
 
 async function uploadImage(request, env) {
   const form = await request.formData().catch(() => null);
@@ -263,28 +263,31 @@ async function uploadImage(request, env) {
   if (!file || typeof file === 'string') throw new HttpError(400, 'No file uploaded');
   const ext = IMAGE_TYPES[file.type];
   if (!ext) throw new HttpError(400, 'Please upload a JPG, PNG, WebP or GIF image');
-  if (file.size > MAX_IMAGE_BYTES) throw new HttpError(400, 'Image is too large (max 10 MB)');
+  if (file.size > MAX_IMAGE_BYTES) throw new HttpError(400, 'Image is too large (max 1.9 MB)');
 
   const key = `${crypto.randomUUID()}.${ext}`;
-  await env.IMAGES.put(key, file.stream(), { httpMetadata: { contentType: file.type } });
+  await env.DB.prepare('INSERT INTO images (id, content_type, data) VALUES (?, ?, ?)')
+    .bind(key, file.type, await file.arrayBuffer())
+    .run();
   return json({ url: `/images/${key}` }, 201);
 }
 
 async function deleteUploadedImages(env, urls) {
   const keys = urls.filter((u) => u.startsWith('/images/')).map((u) => u.slice('/images/'.length));
-  if (keys.length) await env.IMAGES.delete(keys);
+  if (keys.length) {
+    await env.DB.prepare(`DELETE FROM images WHERE id IN (${keys.map(() => '?').join(',')})`).bind(...keys).run();
+  }
 }
 
 async function serveImage(env, url) {
   const key = decodeURIComponent(url.pathname.slice('/images/'.length));
   if (!/^[\w-]+\.(jpg|png|webp|gif)$/.test(key)) return new Response('Not found', { status: 404 });
-  const obj = await env.IMAGES.get(key);
-  if (!obj) return new Response('Not found', { status: 404 });
-  const headers = new Headers();
-  obj.writeHttpMetadata(headers);
-  headers.set('etag', obj.httpEtag);
-  headers.set('cache-control', 'public, max-age=31536000, immutable');
-  return new Response(obj.body, { headers });
+  const row = await env.DB.prepare('SELECT content_type, data FROM images WHERE id = ?').bind(key).first();
+  if (!row) return new Response('Not found', { status: 404 });
+  // Image ids are random and never reused, so the browser can cache them forever
+  return new Response(new Uint8Array(row.data), {
+    headers: { 'content-type': row.content_type, 'cache-control': 'public, max-age=31536000, immutable' },
+  });
 }
 
 // ---------------------------------------------------------------- auth

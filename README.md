@@ -15,7 +15,7 @@ A new website for Dials Antique Clocks (Lymington), built to run entirely on Clo
 | Pages, CSS, JS | Workers static assets | `public/` |
 | API + admin login | Worker | `src/worker.js` |
 | Clock listings | D1 (SQLite) | `migrations/` |
-| Uploaded photos | R2 | served at `/images/...` |
+| Uploaded photos | D1 (`images` table) | served at `/images/...` |
 
 No framework and no build step. The pages are plain HTML, CSS and JavaScript, and the Worker is a single file.
 
@@ -46,7 +46,6 @@ npm run dev                         # http://localhost:8787
 ```bash
 npx wrangler login
 npx wrangler d1 create dials-db                # copy the database_id into wrangler.jsonc
-npx wrangler r2 bucket create dials-clock-images
 npm run db:migrate:remote
 npm run db:seed:remote                         # optional: sample data for the demo
 npx wrangler secret put ADMIN_PASSWORD         # the password the owners will use
@@ -56,7 +55,7 @@ npm run deploy
 
 The site goes live at `https://dials-antique-clocks.<your-subdomain>.workers.dev`. To use their domain, add it under **Workers & Pages → dials-antique-clocks → Settings → Domains & Routes**. The domain's DNS has to be on Cloudflare first.
 
-R2 needs a payment method on the Cloudflare account even when usage stays inside the free allowance (10 GB storage).
+Everything runs on Cloudflare's free plan with no card needed. Photos are stored in D1, which limits each one to about 2 MB, so the admin shrinks them to 1600px before uploading. The free plan allows 500 MB per database, which is roughly 1,000–2,000 photos. If the shop outgrows that, move the photos to R2, Cloudflare's file storage. It needs a card on the account but has a 10 GB free allowance.
 
 ## Before going live
 

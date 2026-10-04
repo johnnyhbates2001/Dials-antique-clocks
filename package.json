@@ -1,0 +1,17 @@
+{
+  "name": "dials-antique-clocks",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "db:migrate:local": "wrangler d1 migrations apply dials-db --local",
+    "db:migrate:remote": "wrangler d1 migrations apply dials-db --remote",
+    "db:seed:local": "wrangler d1 execute dials-db --local --file=seed.sql",
+    "db:seed:remote": "wrangler d1 execute dials-db --remote --file=seed.sql"
+  },
+  "devDependencies": {
+    "wrangler": "^4.147.0"
+  }
+}

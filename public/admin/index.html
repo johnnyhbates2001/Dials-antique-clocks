@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex">
+  <title>Shop Admin | Dials Antique Clocks</title>
+  <link rel="icon" href="/img/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/styles.css">
+  <style>
+    .admin-bar { background: var(--green-dark); color: #e9e1cf; }
+    .admin-bar .container { display: flex; align-items: center; justify-content: space-between; height: 64px; gap: 1rem; }
+    .admin-bar .logo-text { color: #fff; font-size: 1.35rem; }
+    .admin-bar .actions { display: flex; gap: .75rem; align-items: center; }
+    .admin-bar a { color: #e9e1cf; font-size: .85rem; }
+
+    .login { max-width: 380px; margin: 6rem auto; background: var(--paper); border: 1px solid var(--line); border-radius: var(--radius); padding: 2rem; box-shadow: var(--shadow); }
+    .error { color: var(--red); font-size: .9rem; min-height: 1.4em; margin: .5rem 0 0; }
+
+    .panel { background: var(--paper); border: 1px solid var(--line); border-radius: var(--radius); }
+    .admin-main { padding: 2rem 0 4rem; }
+    .admin-head { display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap; margin-bottom: 1.25rem; }
+    .admin-head h1 { font-size: 2.2rem; margin: 0; }
+    .admin-filters { display: flex; gap: .75rem; flex-wrap: wrap; margin-bottom: 1rem; }
+    .admin-filters input { max-width: 280px; }
+    .admin-filters select { width: auto; }
+
+    table { width: 100%; border-collapse: collapse; font-size: .92rem; }
+    th, td { padding: .7rem .9rem; text-align: left; border-bottom: 1px solid var(--line); vertical-align: middle; }
+    th { font-size: .72rem; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); font-weight: 600; }
+    tr:last-child td { border-bottom: 0; }
+    td.thumb img { width: 48px; height: 60px; object-fit: cover; border-radius: 3px; background: #e8dcc4; }
+    td .title { font-weight: 600; }
+    td .sub { color: var(--muted); font-size: .82rem; }
+    td.row-actions { white-space: nowrap; text-align: right; }
+    td select { width: auto; padding: .35rem .5rem; font-size: .85rem; }
+    .star { background: none; border: 0; cursor: pointer; font-size: 1.2rem; color: var(--line); padding: 0; }
+    .star.on { color: var(--brass); }
+
+    @media (max-width: 760px) {
+      thead { display: none; }
+      table, tbody, tr, td { display: block; }
+      tr { display: grid; grid-template-columns: 56px 1fr; gap: .25rem .75rem; padding: .9rem; border-bottom: 1px solid var(--line); }
+      td { border: 0; padding: 0; }
+      td.thumb { grid-row: span 4; }
+      td.row-actions { text-align: left; margin-top: .4rem; }
+      td[data-label]::before { content: attr(data-label) ': '; color: var(--muted); font-size: .8rem; }
+    }
+
+    dialog { border: 0; border-radius: var(--radius); padding: 0; width: min(760px, calc(100vw - 32px)); max-height: calc(100vh - 32px); box-shadow: 0 20px 60px rgba(0,0,0,.3); background: var(--paper); color: var(--ink); }
+    dialog::backdrop { background: rgba(21, 42, 36, .55); }
+    .dialog-head { display: flex; justify-content: space-between; align-items: center; padding: 1.25rem 1.5rem; border-bottom: 1px solid var(--line); position: sticky; top: 0; background: var(--paper); z-index: 1; }
+    .dialog-head h2 { margin: 0; font-size: 1.7rem; }
+    .dialog-body { padding: 1.5rem; }
+    .dialog-foot { display: flex; justify-content: space-between; gap: .75rem; padding: 1rem 1.5rem; border-top: 1px solid var(--line); position: sticky; bottom: 0; background: var(--paper); }
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0 1rem; }
+    .form-grid .full { grid-column: 1 / -1; }
+    @media (max-width: 600px) { .form-grid { grid-template-columns: 1fr; } }
+    .close { background: none; border: 0; font-size: 1.8rem; line-height: 1; cursor: pointer; color: var(--muted); }
+
+    .photos { display: flex; gap: .75rem; flex-wrap: wrap; }
+    .photo { position: relative; width: 104px; height: 128px; border-radius: 4px; overflow: hidden; background: #e8dcc4; border: 2px solid var(--line); }
+    .photo.main { border-color: var(--brass); }
+    .photo img { width: 100%; height: 100%; object-fit: cover; }
+    .photo .tools { position: absolute; inset: auto 0 0 0; display: flex; justify-content: space-between; background: rgba(0,0,0,.55); }
+    .photo .tools button { background: none; border: 0; color: #fff; cursor: pointer; font-size: .7rem; padding: .3rem .4rem; }
+    .photo .main-label { position: absolute; top: 0; left: 0; background: var(--brass); color: #fff; font-size: .62rem; font-weight: 700; padding: .15rem .4rem; letter-spacing: .08em; text-transform: uppercase; }
+    .upload { width: 104px; height: 128px; border: 2px dashed var(--line); border-radius: 4px; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; color: var(--muted); font-size: .78rem; cursor: pointer; gap: .3rem; }
+    .upload:hover, .upload.drag { border-color: var(--brass); color: var(--brass); }
+    .upload span { font-size: 1.6rem; line-height: 1; }
+
+    .toast { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: var(--green-dark); color: #fff; padding: .75rem 1.25rem; border-radius: var(--radius); box-shadow: var(--shadow); font-size: .9rem; z-index: 100; }
+    .toast.err { background: var(--red); }
+  </style>
+</head>
+<body>
+  <div class="admin-bar">
+    <div class="container">
+      <span class="logo-text">Dials <span style="font-family:var(--sans);font-size:.8rem;font-weight:500;letter-spacing:.15em;text-transform:uppercase;color:var(--brass-light)">Shop admin</span></span>
+      <div class="actions">
+        <a href="/shop" target="_blank" rel="noopener">View shop ↗</a>
+        <button class="btn btn-light btn-sm" id="logout" hidden>Log out</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Login -->
+  <section id="login-view" hidden>
+    <form class="login" id="login-form">
+      <h1 style="font-size:2rem">Admin login</h1>
+      <p class="muted">Log in to add, edit or remove clocks from the shop.</p>
+      <label class="field"><span>Password</span><input type="password" id="password" autocomplete="current-password" required autofocus></label>
+      <button class="btn btn-primary" type="submit" style="width:100%">Log in</button>
+      <p class="error" id="login-error" role="alert"></p>
+    </form>
+  </section>
+
+  <!-- Dashboard -->
+  <section id="dashboard-view" class="admin-main" hidden>
+    <div class="container">
+      <div class="admin-head">
+        <div>
+          <h1>Clocks</h1>
+          <span class="muted" id="stats"></span>
+        </div>
+        <button class="btn btn-brass" id="add-clock">+ Add a clock</button>
+      </div>
+      <div class="admin-filters">
+        <input type="search" id="admin-q" placeholder="Search…" aria-label="Search clocks">
+        <select id="admin-status" aria-label="Filter by status">
+          <option value="">All statuses</option>
+          <option value="available">Available</option>
+          <option value="reserved">Reserved</option>
+          <option value="sold">Sold</option>
+        </select>
+      </div>
+      <div class="panel">
+        <table>
+          <thead>
+            <tr><th></th><th>Clock</th><th>Price</th><th>Status</th><th title="Featured on homepage">Featured</th><th></th></tr>
+          </thead>
+          <tbody id="clock-rows"></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- Add / edit -->
+  <dialog id="editor">
+    <form id="clock-form" method="dialog" novalidate>
+      <div class="dialog-head">
+        <h2 id="editor-title">Add a clock</h2>
+        <button class="close" type="button" data-close aria-label="Close">&times;</button>
+      </div>
+      <div class="dialog-body">
+        <div class="form-grid">
+          <label class="field full"><span>Title *</span><input type="text" name="title" required maxlength="200" placeholder="e.g. Eight-Day Painted Dial Longcase Clock"></label>
+          <label class="field"><span>Type *</span>
+            <input type="text" name="type" list="type-list" required placeholder="Choose or type">
+            <datalist id="type-list">
+              <option>Longcase</option><option>Bracket</option><option>Mantel</option><option>Wall</option>
+              <option>Carriage</option><option>Skeleton</option><option>Four Glass</option><option>Lantern</option>
+              <option>Chronometer</option><option>Barometer</option><option>Other</option>
+            </datalist>
+          </label>
+          <label class="field"><span>Price (£) <small>– leave blank for "price on request"</small></span><input type="text" name="price" inputmode="numeric" placeholder="e.g. 2450"></label>
+          <label class="field"><span>Maker</span><input type="text" name="maker" placeholder="e.g. John Matthew, London"></label>
+          <label class="field"><span>Origin</span>
+            <input type="text" name="origin" list="origin-list" placeholder="e.g. English">
+            <datalist id="origin-list"><option>English</option><option>French</option><option>German</option><option>Austrian</option><option>American</option><option>Dutch</option></datalist>
+          </label>
+          <label class="field"><span>Date / period <small>– shown on the site</small></span><input type="text" name="period" placeholder="e.g. c. 1790"></label>
+          <label class="field"><span>Approx. year <small>– used for sorting</small></span><input type="number" name="year" min="1500" max="2100" placeholder="e.g. 1790"></label>
+          <label class="field"><span>Dimensions</span><input type="text" name="dimensions" placeholder="e.g. Height 218 cm"></label>
+          <label class="field"><span>Status</span>
+            <select name="status">
+              <option value="available">Available</option>
+              <option value="reserved">Reserved</option>
+              <option value="sold">Sold</option>
+            </select>
+          </label>
+          <label class="field full"><span>Description</span><textarea name="description" placeholder="Describe the clock: dial, movement, case, condition, work carried out…"></textarea></label>
+          <div class="field full">
+            <span style="display:block;font-size:.8rem;font-weight:600;margin-bottom:.5rem">Photos <small class="muted" style="font-weight:400">– the first photo is the main one shown in the shop</small></span>
+            <div class="photos" id="photos"></div>
+          </div>
+          <label class="check full"><input type="checkbox" name="featured"> Feature this clock on the homepage</label>
+        </div>
+      </div>
+      <div class="dialog-foot">
+        <button class="btn btn-danger btn-sm" type="button" id="delete-clock" hidden>Delete clock</button>
+        <span style="flex:1"></span>
+        <button class="btn btn-outline" type="button" data-close>Cancel</button>
+        <button class="btn btn-primary" type="submit" id="save-clock">Save clock</button>
+      </div>
+    </form>
+  </dialog>
+
+  <input type="file" id="file-input" accept="image/jpeg,image/png,image/webp,image/gif" multiple hidden>
+
+  <script src="/js/site.js"></script>
+  <script src="/js/admin.js"></script>
+</body>
+</html>

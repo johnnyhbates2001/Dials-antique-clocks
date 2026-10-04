@@ -1,0 +1,36 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "dials-antique-clocks",
+  "main": "src/worker.js",
+  "compatibility_date": "2026-09-01",
+
+  // Static pages (homepage, about, shop, admin UI) live in /public.
+  // API and uploaded-image routes run through the Worker first.
+  "assets": {
+    "directory": "./public",
+    "binding": "ASSETS",
+    "html_handling": "auto-trailing-slash",
+    "not_found_handling": "404-page",
+    "run_worker_first": ["/api/*", "/images/*"]
+  },
+
+  // Clock listings
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "dials-db",
+      // Replace with the id printed by `npx wrangler d1 create dials-db`
+      "database_id": "00000000-0000-0000-0000-000000000000",
+      "migrations_dir": "migrations"
+    }
+  ],
+
+  // Uploaded clock photos
+  "r2_buckets": [
+    { "binding": "IMAGES", "bucket_name": "dials-clock-images" }
+  ]
+
+  // Secrets (set with `npx wrangler secret put <NAME>`, or in .dev.vars locally):
+  //   ADMIN_PASSWORD  – password for the /admin login
+  //   SESSION_SECRET  – long random string used to sign login cookies
+}

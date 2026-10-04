@@ -19,8 +19,7 @@
     {
       "binding": "DB",
       "database_name": "dials-db",
-      // Replace with the id printed by `npx wrangler d1 create dials-db`
-      "database_id": "00000000-0000-0000-0000-000000000000",
+      "database_id": "2a16a95a-cf38-4b86-b9b5-676ab4e74e43",
       "migrations_dir": "migrations"
     }
   ]

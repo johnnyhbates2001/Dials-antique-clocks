@@ -4,6 +4,9 @@
   "main": "src/worker.js",
   "compatibility_date": "2026-09-01",
 
+  // Don't wipe variables added in the Cloudflare dashboard on each deploy
+  "keep_vars": true,
+
   // Static pages (homepage, about, shop, admin UI) live in /public.
   // API and uploaded-image routes run through the Worker first.
   "assets": {

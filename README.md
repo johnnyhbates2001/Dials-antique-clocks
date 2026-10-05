@@ -19,6 +19,10 @@ A new website for Dials Antique Clocks (Lymington), built to run entirely on Clo
 
 No framework and no build step. The pages are plain HTML, CSS and JavaScript, and the Worker is a single file.
 
+### Design
+
+The look borrows from a clock dial: enamel white background, Bodoni Moda headings (like the numerals painted on French dials), blued steel for buttons, links and prices, and a red seconds hand as the only accent. The colours are set as variables at the top of `public/css/styles.css`. The fonts (Bodoni Moda and Instrument Sans, both SIL Open Font License) are served from `public/fonts/`, so the site doesn't load anything from Google Fonts.
+
 ### API
 
 Public:

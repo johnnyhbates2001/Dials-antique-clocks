@@ -74,13 +74,13 @@ async function load() {
     els.count.textContent = `${clocks.length} clock${clocks.length === 1 ? '' : 's'}`;
     els.results.innerHTML = clocks.length
       ? clocks.map(Dials.card).join('')
-      : `<div class="empty" style="grid-column:1/-1">
+      : `<div class="empty">
            <h3>No clocks match those filters</h3>
-           <p>Try widening your search, or call us – we may have something that isn't listed yet.</p>
+           <p>Try a wider price range or fewer types. We often have clocks that aren't listed yet, so it's worth calling 01590 673258.</p>
            <button class="btn btn-outline btn-sm" type="button" onclick="document.getElementById('clear-filters').click()">Clear filters</button>
          </div>`;
   } catch {
-    els.results.innerHTML = '<div class="empty" style="grid-column:1/-1">Unable to load clocks right now. Please try again shortly.</div>';
+    els.results.innerHTML = '<div class="empty"><h3>The clocks couldn\'t be loaded</h3><p>Check your connection and refresh the page.</p></div>';
   } finally {
     if (id === requestId) els.results.style.opacity = '';
   }

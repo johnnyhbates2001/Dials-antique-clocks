@@ -84,12 +84,12 @@ function renderRows() {
 
   const counts = { available: 0, reserved: 0, sold: 0 };
   clocks.forEach((c) => counts[c.status]++);
-  $('stats').textContent = `${counts.available} available · ${counts.reserved} reserved · ${counts.sold} sold`;
+  $('stats').textContent = `${counts.available} available, ${counts.reserved} reserved, ${counts.sold} sold`;
 
   $('clock-rows').innerHTML = rows.length ? rows.map((c) => `
     <tr data-id="${c.id}">
       <td class="thumb"><img src="${e(Dials.firstImage(c))}" alt=""></td>
-      <td><div class="title">${e(c.title)}</div><div class="sub">${e([c.type, c.maker, c.period].filter(Boolean).join(' · '))}</div></td>
+      <td><div class="title">${e(c.title)}</div><div class="sub">${e([c.type, c.maker, c.period].filter(Boolean).join(', '))}</div></td>
       <td data-label="Price">${e(Dials.formatPrice(c.price))}</td>
       <td>
         <select data-action="status" aria-label="Status">
@@ -99,7 +99,7 @@ function renderRows() {
       <td><button class="star${c.featured ? ' on' : ''}" data-action="feature" title="${c.featured ? 'Featured on homepage' : 'Not featured'}" aria-pressed="${c.featured}">★</button></td>
       <td class="row-actions">
         <a class="btn btn-outline btn-sm" href="/clock?id=${c.id}" target="_blank" rel="noopener">View</a>
-        <button class="btn btn-primary btn-sm" data-action="edit">Edit</button>
+        <button class="btn btn-sm" data-action="edit">Edit</button>
       </td>
     </tr>`).join('')
     : `<tr><td colspan="6" class="muted" style="text-align:center;padding:2.5rem">${clocks.length ? 'No clocks match.' : 'No clocks yet – click “Add a clock” to get started.'}</td></tr>`;

@@ -3,7 +3,7 @@
 <linearGradient id="oak" x1="0" x2="1"><stop offset="0" stop-color="#6b4a26"/><stop offset=".5" stop-color="#9a7040"/><stop offset="1" stop-color="#6b4a26"/></linearGradient>
 <linearGradient id="brass" x1="0" x2="1"><stop offset="0" stop-color="#9c7a2e"/><stop offset=".45" stop-color="#e3c46e"/><stop offset="1" stop-color="#9c7a2e"/></linearGradient>
 <linearGradient id="glass" x1="0" x2="1"><stop offset="0" stop-color="#fff" stop-opacity=".35"/><stop offset=".3" stop-color="#fff" stop-opacity=".05"/><stop offset="1" stop-color="#fff" stop-opacity=".2"/></linearGradient></defs>
-<rect width="400" height="500" fill="url(#bg)"/><ellipse cx="200" cy="470" rx="150" ry="10" fill="#000" opacity=".12"/>
+<ellipse cx="200" cy="470" rx="150" ry="10" fill="#000" opacity=".12"/>
 <path d="M150 40 Q200 10 250 40 L262 58 L138 58 Z" fill="url(#oak)"/>
 <rect x="196" y="12" width="8" height="14" fill="url(#brass)"/><circle cx="200" cy="10" r="6" fill="url(#brass)"/>
 <rect x="140" y="58" width="120" height="120" fill="url(#oak)" stroke="#3d2814" stroke-width="2"/>

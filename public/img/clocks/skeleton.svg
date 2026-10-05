@@ -3,7 +3,7 @@
 <linearGradient id="oak" x1="0" x2="1"><stop offset="0" stop-color="#6b4a26"/><stop offset=".5" stop-color="#9a7040"/><stop offset="1" stop-color="#6b4a26"/></linearGradient>
 <linearGradient id="brass" x1="0" x2="1"><stop offset="0" stop-color="#9c7a2e"/><stop offset=".45" stop-color="#e3c46e"/><stop offset="1" stop-color="#9c7a2e"/></linearGradient>
 <linearGradient id="glass" x1="0" x2="1"><stop offset="0" stop-color="#fff" stop-opacity=".35"/><stop offset=".3" stop-color="#fff" stop-opacity=".05"/><stop offset="1" stop-color="#fff" stop-opacity=".2"/></linearGradient></defs>
-<rect width="400" height="500" fill="url(#bg)"/><ellipse cx="200" cy="470" rx="150" ry="10" fill="#000" opacity=".12"/>
+<ellipse cx="200" cy="470" rx="150" ry="10" fill="#000" opacity=".12"/>
 <path d="M110 430 L110 170 Q110 60 200 60 Q290 60 290 170 L290 430 Z" fill="#ffffff" opacity=".25" stroke="#fff" stroke-opacity=".7" stroke-width="2"/>
 <path d="M140 400 L170 140 Q200 110 230 140 L260 400 Z" fill="none" stroke="url(#brass)" stroke-width="9"/>
 <path d="M160 300 Q200 260 240 300 M155 350 Q200 320 245 350" fill="none" stroke="url(#brass)" stroke-width="6"/>

@@ -23,27 +23,29 @@ window.Dials = {
     return clock.images?.[0] || '/img/clocks/placeholder.svg';
   },
 
-  statusBadge(status) {
-    if (status === 'reserved') return '<span class="badge badge-reserved">Reserved</span>';
-    if (status === 'sold') return '<span class="badge badge-sold">Sold</span>';
+  statusLabel(status) {
+    if (status === 'reserved') return '<span class="status">Reserved</span>';
+    if (status === 'sold') return '<span class="status status-sold">Sold</span>';
     return '';
+  },
+
+  // "John Matthew, English, c. 1790"
+  metaLine(clock) {
+    return [clock.maker, clock.origin, clock.period].filter(Boolean).join(', ');
   },
 
   card(clock) {
     const e = Dials.escape;
-    const meta = [clock.maker, clock.period].filter(Boolean).map(e).join(' · ');
+    const meta = Dials.metaLine(clock);
     return `
-      <a class="card${clock.status === 'sold' ? ' is-sold' : ''}" href="/clock?id=${clock.id}">
-        <div class="card-img">
+      <a class="item${clock.status === 'sold' ? ' is-sold' : ''}" href="/clock?id=${clock.id}">
+        <div class="item-img">
           <img src="${e(Dials.firstImage(clock))}" alt="${e(clock.title)}" loading="lazy">
-          ${Dials.statusBadge(clock.status)}
+          ${Dials.statusLabel(clock.status)}
         </div>
-        <div class="card-body">
-          <span class="card-type">${e(clock.type)}${clock.origin ? ' · ' + e(clock.origin) : ''}</span>
-          <h3>${e(clock.title)}</h3>
-          ${meta ? `<div class="card-meta">${meta}</div>` : ''}
-          <div class="card-price">${clock.status === 'sold' ? 'Sold' : Dials.formatPrice(clock.price)}</div>
-        </div>
+        <h3>${e(clock.title)}</h3>
+        ${meta ? `<div class="meta">${e(meta)}</div>` : ''}
+        <div class="price">${clock.status === 'sold' ? 'Sold' : Dials.formatPrice(clock.price)}</div>
       </a>`;
   },
 };

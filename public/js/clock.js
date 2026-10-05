@@ -6,9 +6,10 @@
   const e = Dials.escape;
 
   const notFound = () => {
-    container.innerHTML = `<div class="empty" style="grid-column:1/-1">
-      <h3>Clock not found</h3><p>It may have been sold or removed.</p>
-      <a class="btn btn-primary" href="/shop">Back to the shop</a></div>`;
+    container.innerHTML = `<div class="empty">
+      <h3>This clock isn't listed any more</h3>
+      <p>It may have been sold. Have a look at the clocks still in the shop, or call us on 01590 673258.</p>
+      <a class="btn" href="/shop">See the clocks for sale</a></div>`;
   };
 
   if (!/^\d+$/.test(id || '')) return notFound();
@@ -16,19 +17,21 @@
   if (!res || !res.ok) return notFound();
   const { clock } = await res.json();
 
-  document.title = `${clock.title} | Dials Antique Clocks`;
+  document.title = `${clock.title} | Dials of Lymington`;
   document.getElementById('crumb').textContent = clock.title;
 
   const images = clock.images.length ? clock.images : ['/img/clocks/placeholder.svg'];
-  const specs = [
+  const facts = [
     ['Type', clock.type],
     ['Maker', clock.maker],
     ['Origin', clock.origin],
     ['Date', clock.period],
-    ['Dimensions', clock.dimensions],
+    ['Size', clock.dimensions],
+    ['Guarantee', clock.type === 'Longcase' ? '18 months' : '12 months'],
   ].filter(([, v]) => v);
 
-  const price = clock.status === 'sold' ? 'Sold' : Dials.formatPrice(clock.price);
+  const sold = clock.status === 'sold';
+  const maker = Dials.metaLine(clock);
 
   container.innerHTML = `
     <div>
@@ -38,23 +41,21 @@
           <img src="${e(src)}" alt="" loading="lazy"></button>`).join('')}</div>` : ''}
     </div>
     <div>
-      <span class="eyebrow">${e(clock.type)}${clock.origin ? ' · ' + e(clock.origin) : ''}</span>
-      <h1 style="font-size:clamp(2rem,4vw,2.8rem)">${e(clock.title)}</h1>
-      <div class="detail-price">${price}
-        ${clock.status === 'reserved' ? '<span class="badge badge-reserved" style="position:static;vertical-align:middle;margin-left:.5rem">Reserved</span>' : ''}
-      </div>
+      <h1>${e(clock.title)}</h1>
+      ${maker ? `<p class="maker">${e(maker)}</p>` : ''}
+      <div class="detail-price">${sold ? 'Sold' : Dials.formatPrice(clock.price)}
+        ${clock.status === 'reserved' ? '<span class="status">Reserved</span>' : ''}</div>
       <div class="description">${e(clock.description)}</div>
-      ${specs.length ? `<dl class="specs">${specs.map(([k, v]) => `<dt>${k}</dt><dd>${e(v)}</dd>`).join('')}</dl>` : ''}
-      <p class="muted" style="font-size:.9rem">Fully overhauled and guaranteed for ${clock.type === 'Longcase' ? 'eighteen' : 'twelve'} months. Worldwide delivery available.</p>
-      ${clock.status !== 'sold' ? `
+      <dl class="facts">${facts.map(([k, v]) => `<dt>${k}</dt><dd>${e(v)}</dd>`).join('')}</dl>
+      ${sold ? `<a class="btn btn-outline" href="/shop">See the clocks still for sale</a>` : `
       <div class="enquire">
-        <h3 style="margin:0">Interested in this clock?</h3>
-        <p class="muted" style="margin:.25rem 0 0">Call us to arrange a viewing, ask a question or reserve it.</p>
+        <h2>Come and see it</h2>
+        <p>Call to arrange a viewing, ask a question or reserve this clock. We deliver anywhere in the world.</p>
         <div class="actions">
-          <a class="btn btn-primary" href="tel:+441590673258">Call 01590 673258</a>
-          <a class="btn btn-outline" href="/shop">Keep browsing</a>
+          <a class="btn" href="tel:+441590673258">Call 01590 673258</a>
+          <a class="text-link" href="/shop">Back to all clocks</a>
         </div>
-      </div>` : `<a class="btn btn-outline" href="/shop">See clocks still available</a>`}
+      </div>`}
     </div>`;
 
   container.querySelectorAll('.thumbs button').forEach((btn) => {

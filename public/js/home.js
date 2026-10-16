@@ -6,6 +6,7 @@
   const turn = (sel, deg) => document.querySelectorAll(sel).forEach((el) => (el.style.transform = `rotate(${deg}deg)`));
   turn('.h-hand', h * 30);
   turn('.m-hand', m * 6);
+  turn('.s-hand', s * 6);
   setTimeout(tick, 1000 - (Date.now() % 1000));
 })();
 

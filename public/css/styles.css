@@ -1,48 +1,49 @@
-/* Dials of Lymington — "enamel & blued steel"
-   The site borrows from the clock dial: enamel white ground, black Didone
-   numerals, blued-steel hands for anything you can act on, and a single red
-   seconds hand as the only accent. */
+/* Dials Antique Clocks — "the shop card"
+   The site follows the business card: charcoal ink on warm parchment, with
+   Graduate (the card's slab small caps) for headings, labels and buttons, and
+   a single red seconds hand as the only colour. */
 
-@font-face { font-family: 'Bodoni Moda'; font-weight: 400; font-style: normal; font-display: swap; src: url(/fonts/bodoni-moda-latin-400-normal.woff2) format('woff2'); }
-@font-face { font-family: 'Bodoni Moda'; font-weight: 400; font-style: italic; font-display: swap; src: url(/fonts/bodoni-moda-latin-400-italic.woff2) format('woff2'); }
-@font-face { font-family: 'Bodoni Moda'; font-weight: 500; font-style: normal; font-display: swap; src: url(/fonts/bodoni-moda-latin-500-normal.woff2) format('woff2'); }
+@font-face { font-family: 'Graduate'; font-weight: 400; font-style: normal; font-display: swap; src: url(/fonts/graduate-latin-400-normal.woff2) format('woff2'); }
 @font-face { font-family: 'Instrument Sans'; font-weight: 400; font-style: normal; font-display: swap; src: url(/fonts/instrument-sans-latin-400-normal.woff2) format('woff2'); }
 @font-face { font-family: 'Instrument Sans'; font-weight: 500; font-style: normal; font-display: swap; src: url(/fonts/instrument-sans-latin-500-normal.woff2) format('woff2'); }
 @font-face { font-family: 'Instrument Sans'; font-weight: 600; font-style: normal; font-display: swap; src: url(/fonts/instrument-sans-latin-600-normal.woff2) format('woff2'); }
 
 :root {
-  --enamel: #FBFBF8;      /* page ground */
-  --panel: #F1F2F0;       /* behind clock photos */
-  --white: #FFFFFF;
-  --ink: #000000;         /* headings, numerals */
-  --text: #262626;        /* body copy */
-  --grey: #686C74;        /* secondary text */
-  --line: #D9DADC;
-  --steel: #22407A;       /* blued steel: links, buttons, prices */
-  --steel-dark: #172D57;
-  --steel-tint: #E6EAF2;
-  --red: #B3261E;         /* seconds hand; also sold/errors */
+  --paper: #F2EEE6;       /* page ground, the card's parchment */
+  --panel: #E8E3D9;       /* behind clock photos */
+  --white: #FFFDF9;
+  --ink: #2B2826;         /* headings, logo, buttons, links */
+  --text: #35312E;        /* body copy */
+  --grey: #6B645D;        /* secondary text */
+  --line: #D6CFC3;
+  --accent: #2B2826;      /* anything you can act on: same ink as the card */
+  --accent-dark: #000000;
+  --accent-tint: #E8E2D6;
+  --red: #A8271F;         /* seconds hand; also sold/errors */
 
-  --display: 'Bodoni Moda', 'Didot', 'Bodoni 72', Georgia, serif;
+  --display: 'Graduate', 'Rockwell', 'Courier New', serif;
   --sans: 'Instrument Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
   --max: 1240px;
   --gutter: 40px;
   --radius: 2px;
-  --shadow: 0 1px 2px rgba(23, 45, 87, .08), 0 12px 32px rgba(23, 45, 87, .10);
+  --shadow: 0 1px 2px rgba(43, 40, 38, .08), 0 12px 32px rgba(43, 40, 38, .12);
+  /* faint paper grain, like the card stock */
+  --grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .17 0 0 0 0 .16 0 0 0 0 .15 0 0 0 .07 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
 *, *::before, *::after { box-sizing: border-box; }
 [hidden] { display: none !important; }
 html { -webkit-text-size-adjust: 100%; }
-body { margin: 0; background: var(--enamel); color: var(--text); font: 17px/1.6 var(--sans); }
+body { margin: 0; background: var(--grain) var(--paper); color: var(--text); font: 17px/1.6 var(--sans); }
 img { max-width: 100%; display: block; }
-a { color: var(--steel); text-underline-offset: 4px; }
-a:hover { color: var(--steel-dark); }
-:focus-visible { outline: 2px solid var(--steel); outline-offset: 3px; }
+a { color: var(--accent); text-underline-offset: 4px; text-decoration-thickness: 1px; }
+a:hover { color: var(--accent-dark); }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 h1, h2, h3 { font-family: var(--display); font-weight: 400; color: var(--ink); margin: 0; }
-h1 { font-size: clamp(46px, 7vw, 96px); line-height: .98; letter-spacing: -.025em; }
-h2 { font-size: clamp(34px, 4vw, 46px); line-height: 1.05; letter-spacing: -.015em; }
-h3 { font-size: 26px; line-height: 1.15; }
+/* Graduate's lowercase letters are small caps, so headings read like the card */
+h1 { font-size: clamp(40px, 6vw, 78px); line-height: 1.04; }
+h2 { font-size: clamp(30px, 3.6vw, 42px); line-height: 1.1; }
+h3 { font-size: 24px; line-height: 1.2; }
 p { margin: 0 0 1em; }
 
 .container { max-width: var(--max); margin: 0 auto; padding-left: var(--gutter); padding-right: var(--gutter); }
@@ -64,43 +65,42 @@ p { margin: 0 0 1em; }
 .btn {
   display: inline-flex; align-items: center; justify-content: center; gap: .5em;
   padding: 14px 24px; border: 1px solid transparent; border-radius: var(--radius);
-  font: 600 16px/1.2 var(--sans); text-decoration: none; cursor: pointer;
-  background: var(--steel); color: var(--white);
+  font: 400 17px/1.2 var(--display); letter-spacing: .03em; text-decoration: none; cursor: pointer;
+  background: var(--accent); color: var(--paper);
 }
-.btn:hover { background: var(--steel-dark); color: var(--white); }
-.btn-outline { background: transparent; color: var(--steel); border-color: var(--steel); }
-.btn-outline:hover { background: var(--steel); color: var(--white); }
+.btn:hover { background: var(--accent-dark); color: var(--paper); }
+.btn-outline { background: transparent; color: var(--accent); border-color: var(--accent); }
+.btn-outline:hover { background: var(--accent); color: var(--paper); }
 .btn-danger { background: transparent; color: var(--red); border-color: var(--red); }
 .btn-danger:hover { background: var(--red); color: var(--white); }
-.btn-sm { padding: 8px 14px; font-size: 14px; }
+.btn-sm { padding: 8px 14px; font-size: 15px; }
 .btn[disabled] { opacity: .5; cursor: default; }
 .text-link { font-weight: 600; }
-.link-btn { background: none; border: 0; padding: 0; color: var(--steel); font: 500 15px var(--sans); text-decoration: underline; text-underline-offset: 4px; cursor: pointer; }
+.link-btn { background: none; border: 0; padding: 0; color: var(--accent); font: 500 15px var(--sans); text-decoration: underline; text-underline-offset: 4px; cursor: pointer; }
 
 /* ---------- header ---------- */
 .site-header { position: relative; z-index: 20; }
-.site-header .container { display: flex; align-items: baseline; justify-content: space-between; padding-top: 28px; padding-bottom: 28px; }
-.brand { font: 500 30px/1 var(--display); color: var(--ink); text-decoration: none; letter-spacing: -.01em; white-space: nowrap; }
-.brand em { font-weight: 400; font-size: 20px; color: var(--grey); margin-left: .3em; }
-.brand:hover { color: var(--ink); }
-.nav { display: flex; gap: 36px; align-items: baseline; font-size: 15px; }
+.site-header .container { display: flex; align-items: center; justify-content: space-between; padding-top: 18px; padding-bottom: 18px; }
+.brand { display: block; flex-shrink: 0; }
+.brand img { height: 124px; width: auto; }
+.nav { display: flex; gap: 36px; align-items: baseline; font: 18px/1.2 var(--display); letter-spacing: .02em; }
 .nav a { color: var(--ink); text-decoration: none; }
-.nav a:hover, .nav a[aria-current="page"] { color: var(--steel); text-decoration: underline; }
-.nav .tel { color: var(--steel); font-weight: 600; }
+.nav a:hover, .nav a[aria-current="page"] { text-decoration: underline; }
 .nav-toggle { display: none; background: none; border: 0; padding: 4px; color: var(--ink); cursor: pointer; align-self: center; }
 .nav-toggle svg { width: 26px; height: 26px; display: block; }
 @media (max-width: 800px) {
-  .site-header .container { align-items: center; padding-top: 18px; padding-bottom: 18px; }
+  .site-header .container { padding-top: 12px; padding-bottom: 12px; }
+  .brand img { height: 84px; }
   .nav-toggle { display: block; }
-  .nav { display: none; position: absolute; top: 100%; left: 0; right: 0; flex-direction: column; gap: 0; background: var(--enamel); border-bottom: 1px solid var(--line); padding: 0 var(--gutter) 12px; }
+  .nav { display: none; position: absolute; top: 100%; left: 0; right: 0; flex-direction: column; gap: 0; background: var(--grain) var(--paper); border-bottom: 1px solid var(--line); padding: 0 var(--gutter) 12px; }
   .nav.open { display: flex; }
-  .nav a { width: 100%; padding: 14px 0; border-top: 1px solid var(--line); font-size: 17px; }
+  .nav a { width: 100%; padding: 14px 0; border-top: 1px solid var(--line); font-size: 19px; }
 }
 
 /* ---------- homepage hero ---------- */
 .hero { position: relative; overflow: hidden; border-bottom: 1px solid var(--line); }
 .hero .container { position: relative; z-index: 1; padding-top: 80px; padding-bottom: 110px; }
-.hero h1 { max-width: 7.5em; }
+.hero h1 { max-width: 9.5em; }
 .hero p { max-width: 30em; font-size: 19px; margin: 32px 0 40px; }
 .hero .actions { display: flex; align-items: center; gap: 28px; flex-wrap: wrap; }
 .hero-dial { position: absolute; right: -260px; top: -80px; width: 820px; height: 820px; pointer-events: none; }
@@ -131,16 +131,19 @@ p { margin: 0 0 1em; }
 .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: start; }
 @media (max-width: 860px) { .two-col { grid-template-columns: 1fr; gap: 36px; } }
 
-/* Label/value lists (visit details, specs) — italic Bodoni labels like a dial signature */
+/* Label/value lists (visit details, specs) — small-caps labels like the card */
 .facts { display: grid; grid-template-columns: max-content 1fr; gap: 14px 28px; margin: 0; }
-.facts dt { font: italic 18px/1.4 var(--display); color: var(--grey); }
+.facts dt { font: 17px/1.5 var(--display); letter-spacing: .02em; color: var(--grey); }
 .facts dd { margin: 0; }
+/* The card's double-ruled frame, for the visit details */
+.card-frame { padding: 30px 34px; border: 2px solid var(--ink); border-radius: 14px; outline: 1px solid var(--ink); outline-offset: -9px; }
+@media (max-width: 520px) { .card-frame { grid-template-columns: 1fr; gap: 2px; padding: 26px 24px; } .card-frame dd { margin-bottom: 12px; } }
 
 /* Real sequences only (the repair process) */
 .steps { list-style: none; margin: 0; padding: 0; counter-reset: step; }
 .steps li { counter-increment: step; display: grid; grid-template-columns: 56px 1fr; padding: 22px 0; border-top: 1px solid var(--line); }
 .steps li:last-child { border-bottom: 1px solid var(--line); }
-.steps li::before { content: counter(step, upper-roman); font: italic 26px/1.2 var(--display); color: var(--steel); }
+.steps li::before { content: counter(step, upper-roman); font: 24px/1.2 var(--display); color: var(--ink); }
 .steps h3 { font-size: 22px; margin-bottom: 4px; }
 .steps p { margin: 0; color: var(--grey); }
 
@@ -160,14 +163,14 @@ p { margin: 0 0 1em; }
 .item:hover .item-img img { transform: scale(1.02); }
 .item-img img { transition: transform .4s ease; }
 .item h3 { margin: 18px 0 6px; }
-.item:hover h3 { color: var(--steel); }
+.item:hover h3 { color: var(--accent); }
 .item .meta { color: var(--grey); font-size: 15px; }
-.price { font: 500 22px/1.2 var(--display); color: var(--steel); margin-top: 10px; font-variant-numeric: lining-nums; }
+.price { font: 400 22px/1.2 var(--display); color: var(--accent); margin-top: 10px; font-variant-numeric: lining-nums; }
 .item.is-sold .item-img img { opacity: .55; }
 .item.is-sold .price { color: var(--grey); }
 @media (max-width: 520px) { .item h3 { font-size: 19px; margin-top: 12px; } .item .meta { font-size: 13px; } .price { font-size: 18px; } }
 
-.status { position: absolute; top: 12px; left: 12px; padding: 4px 10px; font: 600 13px/1.4 var(--sans); background: var(--white); color: var(--steel); border: 1px solid var(--steel); }
+.status { position: absolute; top: 12px; left: 12px; padding: 4px 10px; font: 13px/1.4 var(--display); letter-spacing: .04em; background: var(--white); color: var(--accent); border: 1px solid var(--accent); }
 .status-sold { color: var(--red); border-color: var(--red); }
 
 .skeleton { aspect-ratio: 4 / 6; background: var(--panel); animation: pulse 1.4s ease-in-out infinite; }
@@ -182,9 +185,9 @@ p { margin: 0 0 1em; }
 .filters-head { display: flex; justify-content: space-between; align-items: baseline; padding-bottom: 14px; border-bottom: 2px solid var(--ink); }
 .filters-head h2 { font-size: 26px; }
 .filter-group { padding: 18px 0; border-bottom: 1px solid var(--line); }
-.filter-group h3 { font: italic 18px/1.3 var(--display); color: var(--grey); margin-bottom: 10px; }
+.filter-group h3 { font: 17px/1.3 var(--display); letter-spacing: .02em; color: var(--grey); margin-bottom: 10px; }
 .check { display: flex; align-items: center; gap: 10px; padding: 4px 0; cursor: pointer; font-size: 16px; }
-.check input { accent-color: var(--steel); width: 17px; height: 17px; margin: 0; }
+.check input { accent-color: var(--accent); width: 17px; height: 17px; margin: 0; }
 .check .count { margin-left: auto; color: var(--grey); font-size: 14px; font-variant-numeric: tabular-nums; }
 .price-inputs { display: flex; gap: 8px; align-items: center; }
 .price-inputs label { flex: 1; position: relative; }
@@ -213,7 +216,7 @@ input[type=text], input[type=number], input[type=password], input[type=search], 
   width: 100%; padding: 11px 12px; border: 1px solid var(--line); border-radius: var(--radius);
   background: var(--white); color: var(--ink); font: 16px/1.4 var(--sans);
 }
-input:focus, select:focus, textarea:focus { outline: 2px solid var(--steel); outline-offset: -1px; border-color: var(--steel); }
+input:focus, select:focus, textarea:focus { outline: 2px solid var(--accent); outline-offset: -1px; border-color: var(--accent); }
 select { cursor: pointer; }
 textarea { min-height: 160px; resize: vertical; }
 label.field { display: block; margin-bottom: 18px; }
@@ -229,29 +232,29 @@ label.field small { color: var(--grey); font-weight: 400; }
 .gallery-main img { width: 100%; aspect-ratio: 4 / 5; object-fit: contain; }
 .thumbs { display: flex; gap: 10px; margin-top: 10px; flex-wrap: wrap; }
 .thumbs button { width: 76px; height: 92px; padding: 0; border: 1px solid var(--line); background: var(--panel); cursor: pointer; }
-.thumbs button[aria-current="true"] { border: 2px solid var(--steel); }
+.thumbs button[aria-current="true"] { border: 2px solid var(--accent); }
 .thumbs img { width: 100%; height: 100%; object-fit: cover; }
 .detail h1 { font-size: clamp(38px, 4.4vw, 58px); line-height: 1.04; }
-.detail .maker { font: italic 20px/1.4 var(--display); color: var(--grey); margin: 14px 0 0; }
-.detail-price { font: 500 34px/1.2 var(--display); color: var(--steel); margin: 22px 0 28px; display: flex; align-items: center; gap: 14px; }
+.detail .maker { font: 19px/1.4 var(--display); letter-spacing: .02em; color: var(--grey); margin: 14px 0 0; }
+.detail-price { font: 400 34px/1.2 var(--display); color: var(--accent); margin: 22px 0 28px; display: flex; align-items: center; gap: 14px; }
 .detail-price .status { position: static; }
 .description { white-space: pre-line; font-size: 18px; max-width: 34em; }
 .detail .facts { padding: 24px 0; margin: 28px 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
-.enquire { background: var(--steel-tint); padding: 28px; margin-top: 28px; }
+.enquire { background: var(--accent-tint); padding: 28px; margin-top: 28px; }
 .enquire h2 { font-size: 28px; margin-bottom: 6px; }
 .enquire p { margin: 0 0 18px; }
 .enquire .actions { display: flex; gap: 20px; align-items: center; flex-wrap: wrap; }
 
 /* ---------- footer ---------- */
-.site-footer { background: var(--steel-dark); color: #C9D2E3; padding: 64px 0 28px; font-size: 16px; }
-.site-footer a { color: var(--white); text-decoration: none; }
-.site-footer a:hover { text-decoration: underline; color: var(--white); }
+.site-footer { background: var(--ink); color: #D9D2C6; padding: 56px 0 28px; font-size: 16px; }
+.site-footer a { color: var(--paper); text-decoration: none; }
+.site-footer a:hover { text-decoration: underline; color: var(--paper); }
 .footer-grid { display: grid; grid-template-columns: 1.6fr 1fr 1fr; gap: 40px; }
 @media (max-width: 760px) { .footer-grid { grid-template-columns: 1fr; gap: 28px; } }
-.site-footer .brand { color: var(--white); display: inline-block; margin-bottom: 14px; }
-.site-footer .brand em { color: #9FB0CF; }
-.site-footer h2 { font: italic 19px/1.3 var(--display); color: #9FB0CF; margin-bottom: 10px; }
+.site-footer .brand { display: inline-block; margin-bottom: 14px; }
+.site-footer .brand img { height: 150px; }
+.site-footer h2 { font: 19px/1.3 var(--display); letter-spacing: .03em; color: #B3AA9D; margin-bottom: 10px; }
 .site-footer ul { list-style: none; margin: 0; padding: 0; }
 .site-footer li { margin-bottom: 6px; }
-.footer-bottom { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; margin-top: 48px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,.15); font-size: 14px; color: #9FB0CF; }
-.footer-bottom a { color: #9FB0CF; }
+.footer-bottom { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; margin-top: 48px; padding-top: 20px; border-top: 1px solid rgba(242,238,230,.15); font-size: 14px; color: #B3AA9D; }
+.footer-bottom a { color: #B3AA9D; }

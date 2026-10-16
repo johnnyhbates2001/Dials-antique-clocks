@@ -21,7 +21,9 @@ No framework and no build step. The pages are plain HTML, CSS and JavaScript, an
 
 ### Design
 
-The look borrows from a clock dial: enamel white background, Bodoni Moda headings (like the numerals painted on French dials), blued steel for buttons, links and prices, and a red seconds hand as the only accent. The colours are set as variables at the top of `public/css/styles.css`. The fonts (Bodoni Moda and Instrument Sans, both SIL Open Font License) are served from `public/fonts/`, so the site doesn't load anything from Google Fonts.
+The look follows the shop's logo and business card: charcoal ink on warm parchment, Graduate headings, labels and buttons (the slab small caps used on the card), Instrument Sans for body text, and a red seconds hand as the only colour. Links and buttons use the same charcoal as the card. The colours are set as variables at the top of `public/css/styles.css`; to bring back a coloured link, change `--accent` and `--accent-dark`. The fonts (Graduate and Instrument Sans, both SIL Open Font License) are served from `public/fonts/`, so the site doesn't load anything from Google Fonts.
+
+The logo is `public/img/logo.png` (charcoal, for light backgrounds) and `public/img/logo-light.png` (for the dark footer). Both are transparent cut-outs made from the owners' logo image. The favicon and Apple touch icon are cropped from the dial.
 
 ### API
 

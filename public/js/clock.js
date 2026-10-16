@@ -17,7 +17,7 @@
   if (!res || !res.ok) return notFound();
   const { clock } = await res.json();
 
-  document.title = `${clock.title} | Dials of Lymington`;
+  document.title = `${clock.title} | Dials Antique Clocks`;
   document.getElementById('crumb').textContent = clock.title;
 
   const images = clock.images.length ? clock.images : ['/img/clocks/placeholder.svg'];

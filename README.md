@@ -59,7 +59,11 @@ npx wrangler secret put SESSION_SECRET         # any long random string, e.g. `o
 npm run deploy
 ```
 
-The site goes live at `https://dials-antique-clocks.<your-subdomain>.workers.dev`. To use their domain, add it under **Workers & Pages → dials-antique-clocks → Settings → Domains & Routes**. The domain's DNS has to be on Cloudflare first.
+The site goes live at `https://dials-antique-clocks.<your-subdomain>.workers.dev`.
+
+After that first setup, the worker deploys itself: it is connected to this GitHub repository under **Workers & Pages → dials-antique-clocks → Settings → Build**, and every push to `main` builds and deploys the site. The Cloudflare Workers and Pages GitHub app needs access to this repository (GitHub **Settings → Applications**); without it, pushes are silently ignored. Builds don't run database migrations, so after adding a file to `migrations/`, run `npm run db:migrate:remote` yourself.
+
+To use their domain, add it under **Workers & Pages → dials-antique-clocks → Settings → Domains & Routes**. The domain's DNS has to be on Cloudflare first.
 
 Everything runs on Cloudflare's free plan with no card needed. Photos are stored in D1, which limits each one to about 2 MB, so the admin shrinks them to 1600px before uploading. The free plan allows 500 MB per database, which is roughly 1,000–2,000 photos. If the shop outgrows that, move the photos to R2, Cloudflare's file storage. It needs a card on the account but has a 10 GB free allowance.
 

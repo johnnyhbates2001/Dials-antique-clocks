@@ -86,11 +86,17 @@ p { margin: 0 0 1em; }
 .nav { display: flex; gap: 36px; align-items: baseline; font: 18px/1.2 var(--display); letter-spacing: .02em; }
 .nav a { color: var(--ink); text-decoration: none; }
 .nav a:hover, .nav a[aria-current="page"] { text-decoration: underline; }
+.header-tel { display: none; }
 .nav-toggle { display: none; background: none; border: 0; padding: 4px; color: var(--ink); cursor: pointer; align-self: center; }
 .nav-toggle svg { width: 26px; height: 26px; display: block; }
 @media (max-width: 800px) {
   .site-header .container { padding-top: 12px; padding-bottom: 12px; }
   .brand img { height: 84px; }
+  .header-tel { display: block; margin-left: auto; margin-right: 18px; font: 17px/1 var(--display); letter-spacing: .02em; color: var(--ink); text-decoration: none; }
+  /* the homepage hero is the logo itself, so the header there is just a slim bar */
+  .home .site-header .brand { display: none; }
+  .home .header-tel { margin-left: 0; }
+  .home .site-header .container { padding-top: 14px; padding-bottom: 6px; }
   .nav-toggle { display: block; }
   .nav { display: none; position: absolute; top: 100%; left: 0; right: 0; flex-direction: column; gap: 0; background: var(--grain) var(--paper); border-bottom: 1px solid var(--line); padding: 0 var(--gutter) 12px; }
   .nav.open { display: flex; }
@@ -106,12 +112,22 @@ p { margin: 0 0 1em; }
 /* vertically centred in the hero so the whole dial shows, running off only the right edge */
 .hero-dial { position: absolute; right: -260px; top: 50%; transform: translateY(-50%); width: 820px; height: 820px; pointer-events: none; }
 .hero-dial svg { width: 100%; height: 100%; }
+.hero-lettering { display: none; }
+.hero-hours { font: 16px/1.4 var(--display); letter-spacing: .03em; color: var(--grey); margin: 26px 0 0 !important; }
 @media (max-width: 1100px) { .hero-dial { width: 600px; height: 600px; right: -220px; opacity: .9; } }
 @media (max-width: 920px) { .hero-dial { width: 500px; height: 500px; right: -230px; } }
 @media (max-width: 800px) {
-  /* on phones the whole dial sits above the headline, nothing cropped */
-  .hero .container { padding-top: calc(min(400px, 100vw) - 24px); padding-bottom: 56px; }
-  .hero-dial { width: min(400px, 100vw); height: min(400px, 100vw); left: 50%; right: auto; top: 0; transform: translateX(-50%); opacity: 1; }
+  /* On phones the hero is the full logo: the arched name over the live dial.
+     The dial's box is --d wide; the lettering spills 4.6% above it, and the
+     box has 12.5% of empty margin below the numerals. */
+  .hero { --d: min(318px, 80vw); text-align: center; }
+  .hero-dial { position: relative; top: auto; right: auto; width: var(--d); height: var(--d); transform: translateX(1.1%); margin: calc(var(--d) * .046 + 22px) auto calc(var(--d) * -.125); opacity: 1; }
+  .hero-dial svg { overflow: visible; }
+  .hero-lettering { display: inline; }
+  .hero .container { padding-top: 26px; padding-bottom: 48px; }
+  .hero h1 { font-size: clamp(30px, 8.6vw, 40px); max-width: none; }
+  .hero .actions { flex-direction: column; align-items: stretch; gap: 12px; }
+  .hero-hours span { display: block; }
   .hero p { font-size: 17px; margin: 22px 0 28px; }
 }
 /* The hands turn about the dial centre, which is the viewBox origin */
